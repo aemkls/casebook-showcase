@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Casebook — поиск по административным и уголовным делам Казахстана. Судебные акты, доказательства и выводы суда с переходом к полному тексту.">
+  <meta name="theme-color" content="#162e37">
+  <title>Casebook — судебная практика Казахстана</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2212%22%20fill%3D%22%23162e37%22%2F%3E%3Cpath%20d%3D%22M44%2020a17%2017%200%201%200%200%2024%22%20fill%3D%22none%22%20stroke%3D%22%23e4bd7b%22%20stroke-width%3D%225%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E">
+  <style>:root {
+  color-scheme: light;
+  --ink: #1d3036;
+  --muted: #69777a;
+  --accent: #245b60;
+  --navy: #162e37;
+  --gold: #c79a5b;
+  --line: #dce2df;
+  --paper: #fbfcfa;
+  --soft: #f1f4f1;
+  --green: #286548;
+  --amber: #825414;
+  --red: #a44748;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+a { color: var(--accent); text-underline-offset: 4px; }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: wait; opacity: .6; }
+:focus-visible { outline: 3px solid #ba904d; outline-offset: 4px; }
+[hidden] { display: none !important; }
+.skip-link { position: fixed; top: -70px; left: 20px; z-index: 20; padding: 12px; background: white; }
+.skip-link:focus { top: 10px; }
+.topbar { min-height: 92px; padding: 18px 38px; display: flex; justify-content: space-between; align-items: center; gap: 20px; background: var(--navy); color: white; }
+.brand { display: flex; align-items: center; gap: 15px; color: white; text-decoration: none; font: 30px/1.05 Georgia, serif; }
+.brand-symbol { display: grid; place-items: center; width: 43px; height: 47px; border: 1px solid #688083; color: #e4bd7b; font-size: 33px; }
+.brand small { display: block; margin-top: 7px; color: #beced0; font: 11px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: .45px; }
+.author-link { color: #d9e1e0; font-size: 13px; text-decoration: none; border-bottom: 1px solid #597075; padding-bottom: 3px; white-space: nowrap; }
+.author-link span { margin-left: 10px; }
+.shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: calc(100vh - 92px); }
+.sidebar { padding: 40px 24px; background: #f0f3f0; border-right: 1px solid var(--line); }
+.eyebrow { margin: 0 0 16px; color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px; font-weight: 650; }
+.collection { display: grid; }
+.collection .eyebrow { margin-bottom: 9px; }
+.collection strong { font: 41px/1.15 Georgia, serif; letter-spacing: -1px; }
+.collection > span:last-child { font-size: 12px; color: var(--muted); margin-top: 8px; }
+nav { display: grid; gap: 6px; margin: 38px -10px 60px; }
+.nav { display: flex; align-items: center; gap: 11px; border-radius: 4px; padding: 12px 10px; font-size: 14px; text-decoration: none; color: #516266; }
+.nav > span { width: 20px; text-align: center; font-size: 21px; line-height: 1; }
+.nav:hover { background: #e4eae5; }
+.nav-label { font-style: normal; }
+.nav.active { color: var(--navy); background: #e0e8e1; font-weight: 650; }
+.sidebar-note { font-size: 13px; color: #526467; }
+.sidebar-note p { margin: 17px 0; }
+.small-rule { display: block; width: 30px; height: 2px; background: var(--gold); }
+.sidebar-note small { color: var(--muted); font-size: 11px; }
+.shell > main { padding: 25px clamp(28px, 4.5vw, 76px) 30px; min-width: 0; max-width: 1510px; }
+.database-status { min-height: 25px; display: flex; align-items: center; gap: 9px; margin-bottom: 30px; color: var(--muted); font-size: 12px; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+.database-status.ready .status-dot { background: #5c8667; }
+.database-status.failed { color: var(--red); }
+.database-status.failed .status-dot { background: var(--red); }
+.text-button { padding: 0; color: var(--accent); border: 0; background: none; text-decoration: underline; text-underline-offset: 3px; }
+h1 { font: 48px/1.13 Georgia, "Times New Roman", serif; letter-spacing: -1.4px; margin: 0 0 21px; }
+h2 { font-size: 23px; line-height: 1.3; font-weight: 600; margin: 35px 0 15px; letter-spacing: -.4px; }
+h3 { font-size: 17px; line-height: 1.4; margin: 12px 0; }
+.intro { max-width: 690px; color: #667477; font-size: 16px; line-height: 1.7; margin: 0 0 28px; }
+.search-form { background: white; padding: 23px 26px; border: 1px solid #cbd6ce; border-top: 3px solid var(--accent); box-shadow: 0 6px 18px #1d303605; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+label { display: block; font-size: 12px; font-weight: 600; color: #42585b; }
+textarea, input, select { color: var(--ink); background: white; width: 100%; border: 1px solid #cbd4d0; border-radius: 3px; padding: 11px 12px; min-width: 0; }
+textarea { resize: vertical; margin: 10px 0 18px; display: block; font-size: 16px; min-height: 107px; line-height: 1.6; }
+textarea::placeholder, input::placeholder { color: #8a9696; }
+select, input { display: block; margin-top: 7px; font-size: 13px; }
+.formrow { display: flex; justify-content: space-between; align-items: end; gap: 20px; }
+.formrow label { width: min(360px, 60%); }
+.primary { display: inline-flex; justify-content: center; align-items: center; gap: 25px; min-height: 44px; padding: 11px 20px; border: 1px solid var(--accent); border-radius: 3px; background: var(--accent); color: white; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.primary:hover { background: #19494e; }
+.secondary { padding: 9px 14px; border: 1px solid var(--line); border-radius: 3px; background: white; color: var(--ink); font-size: 13px; text-decoration: none; }
+.examples { margin: 17px 0 32px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.examples > span { font-size: 12px; color: var(--muted); margin-right: 4px; }
+.examples button { font-size: 11px; border: 1px solid var(--line); border-radius: 20px; padding: 6px 11px; color: #526568; background: transparent; }
+.examples button:hover { background: #e9efea; border-color: #afc2b3; }
+.welcome { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; border-top: 1px solid var(--line); padding: 27px 0 6px; }
+.step { font-size: 10px; font-weight: 600; letter-spacing: 1.6px; color: #8b795c; }
+.welcome h2 { font-size: 17px; margin: 11px 0 8px; }
+.welcome p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; font-size: 11px; color: var(--muted); }
+footer a { color: inherit; }
+.notice, .loading, .empty, .error { margin: 24px 0; padding: 20px; border-left: 3px solid #aabbb4; background: var(--soft); color: #536469; font-size: 14px; }
+.empty h2 { margin: 0 0 8px; font-size: 19px; }
+.empty p { margin: 0; }
+.error { color: #923f42; background: #faf0ef; border-color: #b77071; }
+.muted { color: var(--muted); font-size: 14px; }
+.answer-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.answer-head h2 { margin-top: 22px; }
+.tag { display: inline-block; padding: 4px 8px; border-radius: 3px; color: #607173; background: #edf1ee; font-size: 11px; font-weight: 600; }
+.tag.granted { background: #e9f1e9; color: var(--green); }
+.tag.partial { background: #f9f0dd; color: var(--amber); }
+.tag.refused { background: #f8eaea; color: var(--red); }
+.tag.example { background: #e9eff2; color: #3c6475; }
+.tag.convicted { background: #f8eaea; color: var(--red); }
+.tag.acquitted { background: #e9f1e9; color: var(--green); }
+.tag.review { background: #f9f0dd; color: var(--amber); }
+.tag.terminated, .tag.changed { background: #f9f0dd; color: var(--amber); }
+.tag.upheld { background: #e9eff2; color: #3c6475; }
+.tag.overturned { background: #f8eaea; color: var(--red); }
+.tag.punishment { background: #edf1ee; color: #42585b; }
+.tags { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.section-switch { display: grid; grid-template-columns: 1fr; gap: 3px; padding: 3px; margin: 0 -6px 30px; background: #e3e9e4; border-radius: 5px; }
+.section-link { padding: 8px 6px; border-radius: 3px; text-align: center; font-size: 12px; font-weight: 600; color: #516266; text-decoration: none; }
+.section-link:hover { background: #d8e1da; }
+.section-link.active { background: white; color: var(--navy); box-shadow: 0 1px 2px #1d303618; }
+.evidence-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.evidence { padding: 22px; border: 1px solid var(--line); background: white; }
+.evidence .index { font: 20px Georgia, serif; color: #a1804b; }
+.evidence p { font-size: 14px; margin: 7px 0; }
+.evidence .why { color: var(--muted); font-size: 12px; }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+.card { min-width: 0; padding: 23px; border: 1px solid var(--line); background: white; border-radius: 3px; }
+.card-top { display: flex; justify-content: space-between; gap: 9px; align-items: start; }
+.case-date { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.card h3 { margin: 17px 0 10px; }
+.card p { font-size: 14px; }
+.card .meta { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.card .claim { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+.card .label { margin-top: 17px; color: var(--muted); font-size: 11px; letter-spacing: .6px; text-transform: uppercase; }
+.card a { font-size: 13px; }
+.card-link { display: inline-block; margin-top: 11px; font-weight: 600; }
+blockquote { margin: 12px 0; padding: 2px 0 2px 14px; border-left: 2px solid #c9d3cc; color: #59696d; font-size: 13px; overflow-wrap: anywhere; }
+summary { cursor: pointer; color: var(--accent); font-size: 13px; }
+details { margin: 15px 0; }
+small { font-size: 12px; }
+.review-note { font-size: 12px !important; color: #946c26; }
+.questions { margin-top: 24px; padding: 20px 25px; background: var(--soft); }
+.questions h3 { margin: 0; }
+.questions ol { padding-left: 19px; font-size: 14px; margin-bottom: 0; }
+.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 26px 0; }
+.metric { border: 1px solid var(--line); padding: 17px; background: white; }
+.metric strong { display: block; font: 33px Georgia, serif; margin-bottom: 7px; }
+.metric span { font-size: 12px; color: var(--muted); }
+.filters { display: grid; grid-template-columns: 1.15fr .9fr 1.25fr auto; gap: 12px; align-items: end; margin-bottom: 28px; }
+.result-count { margin: 20px 0 16px; font-size: 13px; color: var(--muted); }
+.pagination { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: 28px; font-size: 13px; }
+.pagination button:disabled { cursor: default; opacity: .4; }
+.topic-filter { max-width: 400px; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); margin: 28px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; background: white; }
+caption { text-align: left; padding: 14px 16px; color: var(--muted); background: var(--soft); }
+th, td { padding: 15px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+th { background: #f1f4f1; font-size: 12px; font-weight: 600; }
+td:nth-child(n+2) { font-variant-numeric: tabular-nums; }
+td small { display: block; color: var(--muted); white-space: nowrap; font-size: 11px; }
+.prose { max-width: 770px; color: #526467; }
+.prose .lead { font-size: 18px; line-height: 1.8; }
+.prose h2 { color: var(--ink); }
+.prose p { font-size: 15px; }
+.author-signature { padding-bottom: 22px; border-bottom: 1px solid var(--line); font-size: 13px !important; }
+.source-view { max-width: 1050px; padding: 36px 30px; margin: 0 auto; }
+.source-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
+.source-view h1 { font-size: 34px; overflow-wrap: anywhere; }
+.source-meta { font-size: 14px; color: var(--muted); }
+.fulltext { background: white; padding: 24px 12px; border: 1px solid var(--line); margin-top: 25px; }
+.line { min-height: 10px; scroll-margin-top: 20px; }
+.line span { display: block; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; }
+.line.highlight { background: #fff0c8; }
+@media (min-width: 1700px) { .shell { max-width: 1740px; margin: 0 auto; } }
+@media (max-width: 1150px) { .shell { grid-template-columns: 215px minmax(0, 1fr); } .sidebar { padding: 35px 20px; } .filters { grid-template-columns: 1fr 1fr; } .cards { grid-template-columns: 1fr; } h1 { font-size: 43px; } }
+@media (max-width: 760px) {
+  .topbar { min-height: 80px; padding: 16px 20px; gap: 14px; }
+  .brand { font-size: 26px; gap: 10px; } .brand-symbol { width: 34px; height: 40px; font-size: 29px; }
+  .brand small { font-size: 9px; letter-spacing: 0; max-width: 180px; } .author-link { font-size: 10px; }
+  .author-link span { margin-left: 0; }
+  .shell { display: block; } .sidebar { padding: 9px 12px; border-bottom: 1px solid var(--line); border-right: 0; }
+  .collection, .sidebar-note { display: none; }
+  .section-switch { margin: 0 0 8px; grid-template-columns: repeat(3, 1fr); } .section-link { padding: 8px 2px; font-size: 11px; }
+  nav { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 0; } .nav { white-space: nowrap; font-size: 12px; padding: 10px; gap: 5px; } .nav > span { display: none; }
+  .shell > main { padding: 19px 20px 28px; }
+  .database-status { margin-bottom: 25px; font-size: 11px; }
+  h1 { font-size: 38px; letter-spacing: -1px; } .intro { font-size: 14px; }
+  .search-form { padding: 18px; } textarea { font-size: 16px; min-height: 130px; }
+  .formrow { display: block; } .formrow label { width: 100%; } .formrow .primary { margin-top: 17px; width: 100%; }
+  .welcome { grid-template-columns: 1fr; gap: 22px; } .welcome h2 { margin-top: 6px; }
+  .examples { gap: 7px; } .examples > span { width: 100%; }
+  .evidence-list { grid-template-columns: 1fr; } .answer-head { display: block; }
+  .metrics { gap: 7px; } .metric { padding: 14px 9px; } .metric strong { font-size: 28px; } .metric span { font-size: 10px; }
+  .filters { grid-template-columns: 1fr; } .card { padding: 18px; }
+  .source-view { padding: 24px 15px; } .source-view h1 { font-size: 29px; } .fulltext { padding: 18px 7px; }
+  footer { margin-top: 38px; } .prose .lead { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">К содержимому</a>
+  <header class="topbar">
+    <a class="brand" href="#question" aria-label="Casebook — на главную">
+      <span class="brand-symbol" aria-hidden="true">C</span>
+      <span>Casebook<small id="brand-sub">Административные споры · Казахстан</small></span>
+    </a>
+    <a class="author-link" href="https://github.com/aemkls/sudebnaya-praktika" target="_blank" rel="noopener">Проект aemkls <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="section-switch" role="group" aria-label="Раздел практики">
+        <a href="#question" class="section-link active" data-section="admin" aria-current="true">Административные</a>
+        <a href="#criminal/question" class="section-link" data-section="criminal">Уголовные</a>
+        <a href="#civil/question" class="section-link" data-section="civil">Гражданские</a>
+      </div>
+      <div class="collection"><span class="eyebrow" id="collection-eyebrow">Коллекция решений</span><strong id="unique">21 795</strong><span id="collection-note">судебных актов · 28 тем</span></div>
+      <nav aria-label="Основные разделы">
+        <a href="#question" class="nav active" data-view="question" aria-current="page"><span aria-hidden="true">⌕</span> Поиск по ситуации</a>
+        <a href="#registry" class="nav" data-view="registry"><span aria-hidden="true">≡</span> <em class="nav-label" id="nav-registry">Реестр решений</em></a>
+        <a href="#factors" class="nav" data-view="factors"><span aria-hidden="true">▥</span> Обстоятельства</a>
+        <a href="#method" class="nav" data-view="method"><span aria-hidden="true">ⓘ</span> О проекте</a>
+      </nav>
+      <div class="sidebar-note"><span class="small-rule"></span><p>Понять позицию суда.<br>Найти нужные доказательства.</p><small>Исследовательский проект<br>по судебной практике Казахстана</small></div>
+    </aside>
+    <main id="main-content" tabindex="-1">
+      <div id="database-status" class="database-status" role="status" aria-live="polite">
+        <span class="status-dot" aria-hidden="true"></span><span id="status-text">Загружаем базу…</span><button id="retry-load" class="text-button" hidden>Повторить</button>
+      </div>
+      <section id="question-view" aria-labelledby="question-heading">
+        <div class="page-heading"><p class="eyebrow" id="question-eyebrow">Поиск по ситуации</p><h1 id="question-heading">Найдите опору<br>в судебной практике.</h1><p class="intro" id="question-intro">Опишите спор. Посмотрите, какие доказательства исследовал суд и почему похожие дела закончились по-разному.</p></div>
+        <form id="ask" class="search-form">
+          <fieldset data-needs-data disabled>
+            <label for="question" id="question-label">Что произошло?</label>
+            <textarea id="question" rows="3" maxlength="1200" required placeholder="Например: ЧСИ неверно рассчитал задолженность по алиментам. У меня есть банковские переводы."></textarea>
+            <div class="formrow"><label for="question-topic"><span id="question-topic-label">Тема спора</span><select id="question-topic"><option value="">Определить по вопросу</option></select></label><button class="primary" type="submit"><span id="question-submit">Найти решения</span> <span aria-hidden="true">↗</span></button></div>
+          </fieldset>
+        </form>
+        <div class="examples" id="examples" aria-label="Примеры запросов"><span>Например</span><button data-needs-data disabled data-question="Заявку на земельный конкурс отклонили из-за оформления документов">Земельный конкурс</button><button data-needs-data disabled data-question="ЧСИ неправильно рассчитал задолженность по алиментам и учел переводы другого назначения">Расчёт алиментов</button><button data-needs-data disabled data-question="Налоговая выставила уведомление из-за контрагента. Работы выполнены и оплачены">Налоговое уведомление</button><button data-needs-data disabled data-question="Отказали в жилищных выплатах, потому что есть квартира в ипотеке">Жилищные выплаты</button></div>
+        <div id="answer" aria-live="polite">
+          <div class="welcome"><article><span class="step">01 / НАЙТИ</span><h2>Похожие дела</h2><p>По предмету спора, требованиям и обстоятельствам.</p></article><article><span class="step">02 / СРАВНИТЬ</span><h2>Позиции суда</h2><p>Удовлетворение иска, частичный результат или отказ.</p></article><article><span class="step">03 / ПРОВЕРИТЬ</span><h2>Первоисточник</h2><p>Полный текст решения и переход к конкретной цитате.</p></article></div>
+        </div>
+      </section>
+      <section id="registry-view" aria-labelledby="registry-heading" hidden>
+        <p class="eyebrow">Коллекция</p><h1 id="registry-heading">Реестр решений</h1><p class="intro" id="registry-intro">Выберите тему и исход или найдите дело по номеру. Точные повторы исключены из списка.</p>
+        <div id="summary" class="metrics"></div>
+        <form id="filter"><fieldset class="filters" data-needs-data disabled><label for="registry-topic"><span class="topic-word">Тема</span><select id="registry-topic"><option value="">Все темы</option></select></label><label for="registry-outcome">Исход<select id="registry-outcome"><option value="">Все исходы</option></select></label><label for="registry-query">Номер дела или слова<input id="registry-query" maxlength="1200" placeholder="Например, 2794-21-00-4/481"></label><button class="primary" type="submit">Найти</button></fieldset></form>
+        <div id="registry-results" aria-live="polite"></div>
+      </section>
+      <section id="factors-view" aria-labelledby="factors-heading" hidden>
+        <p class="eyebrow" id="factors-eyebrow">Анализ решений</p><h1 id="factors-heading">Обстоятельства спора</h1><p class="intro" id="factors-intro">Какие формулировки встречаются в мотивировках и как распределяются по исходам дел.</p>
+        <label class="topic-filter" for="factor-topic"><span class="topic-word">Тема</span><select id="factor-topic" data-needs-data disabled><option value="">Все темы</option></select></label>
+        <p class="notice" id="factors-notice">Частота формулировки не показывает вероятность выигрыша. В одном деле может быть несколько требований с разными исходами. Для вывода по своему спору прочитайте полную мотивировку.</p>
+        <div id="factor-results" aria-live="polite"></div>
+      </section>
+      <section id="method-view" aria-labelledby="method-heading" hidden>
+        <p class="eyebrow">О проекте</p><h1 id="method-heading">Решения — с контекстом.</h1>
+        <div class="prose"><p class="lead">«Casebook» — мой проект для изучения судебной практики Казахстана: административных споров, уголовных и гражданских дел. Я хочу сделать судебные акты удобнее для поиска и сравнения: от ситуации человека до доказательств и выводов суда.</p><p class="author-signature"><a href="https://github.com/aemkls" target="_blank" rel="noopener">aemkls ↗</a> · автор проекта</p>
+          <h2>Что входит в коллекцию</h2><p><b>Административные споры.</b> 21 814 исходных документов, 21 795 после исключения точных повторов. Решения распределены по 28 темам. Для 15 примеров подготовлены разборы с 32 цитатами из судебных актов.</p><p><b>Уголовные дела.</b> <span id="criminal-count">212</span> приговоров судов первой инстанции. Категория (кража, мошенничество, наркотики, вред здоровью и другие) определена по статье Уголовного кодекса, исход и вид наказания — по резолютивной части.</p><p><b>Гражданские дела.</b> <span id="civil-count">137</span> решений и апелляционных постановлений по гражданским спорам (корпоративные, договорные, семейные, трудовые, о долгах и вреде и другие). Тема определена по требованиям истца, исход — по резолютивной части. Тексты на казахском языке и технические определения в коллекцию не вошли.</p>
+          <h2>Как устроен поиск</h2><p>Поиск сопоставляет слова запроса и близкие термины с текстами решений. Тему можно указать вручную. Рядом с результатами показаны перечень доказательств по теме и примеры с цитатами. Они помогают подготовиться к изучению дела, но не учитывают все детали вашей ситуации.</p>
+          <h2>Что стоит перепроверить</h2><p>Темы, даты и исходы размечены автоматически. Неоднозначные записи отмечены в карточках. Разметка относится к конкретному акту: последующее обжалование и исполнение не отслеживаются. Дополнительные решения учтены отдельно.</p><p>Состав коллекции и повторяющиеся серии дел влияют на статистику. Поэтому здесь нет прогноза «процента победы». Найденная формулировка сама по себе не устанавливает причину выигрыша.</p>
+          <h2>Документы и нормы</h2><p>Выводы суда относятся к обстоятельствам и законодательству на дату дела. Для нового спора нужно проверить применимую редакцию норм и процессуальные сроки.</p><p><a href="https://adilet.zan.kz/rus/docs/K2000000350" target="_blank" rel="noopener">Административный процедурно-процессуальный кодекс РК ↗</a><br><a href="https://adilet.zan.kz/rus/docs/K1400000226" target="_blank" rel="noopener">Уголовный кодекс РК ↗</a></p>
+          <h2>Обезличивание уголовных и гражданских дел</h2><p>В текстах приговоров и решений фамилии, имена и отчества всех участников заменены на условные обозначения ФИО-1, ФИО-2 и далее — отдельно для каждого дела. Точные даты рождения сокращены до года, ИИН и адреса проживания скрыты. Замена выполнена автоматически и проверена выборочно; если вы заметили необезличенные данные, сообщите автору проекта.</p>
+          <h2>Данные и приватность</h2><p>Поисковый индекс загружается при открытии, тексты решений — по запросу. Обработка вопроса происходит в браузере: приложение не отправляет его на сервер и не использует внешний API языковой модели.</p><p><a href="https://github.com/aemkls/sudebnaya-praktika" target="_blank" rel="noopener">Код проекта и инструкция по запуску ↗</a></p>
+        </div>
+      </section>
+      <footer><span>Casebook · проект <a href="https://github.com/aemkls" target="_blank" rel="noopener">aemkls</a></span><span>Результат одного дела не гарантирует исход другого.</span></footer>
+    </main>
+  </div>
+  <main id="source-view" class="source-view" hidden tabindex="-1"></main>
+  <noscript><p class="notice">Для поиска по решениям включите JavaScript в настройках браузера.</p></noscript>
+  <script id="search-worker" type="text/plain">/* Search over the five-character word prefixes stored in a published index (administrative or criminal). */
+class PracticeSearch {
+  constructor(data) {
+    this.data = data;
+    this.records = data.records.filter(row => !row[14]);
+    this.stopWords = new Set(data.stop);
+  }
+
+  normalize(text) {
+    return String(text ?? '').toLowerCase().replace(/ё/g, 'е');
+  }
+
+  terms(query) {
+    const expanded = this.normalize(query)
+      .replace(/пристав[а-я]*/g, ' судебный исполнитель чси ')
+      .replace(/земл[яюеи](?=\s|$)/g, ' земельный участок ')
+      .replace(/долг[а-я]*/g, ' задолженность ')
+      .replace(/машин[а-я]*/g, ' автомобиль транспортное ')
+      .replace(/ипотек[а-я]*/g, ' ипотечный ')
+      .replace(/пенси[яию](?=\s|$)/g, ' пенсионный ')
+      .replace(/субсиди[а-я]*/g, ' субсидирование ');
+    return [...new Set((expanded.match(/[а-яa-z]+/g) || [])
+      .filter(word => word.length >= 3 && !this.stopWords.has(word))
+      .map(word => word.length > 6 ? word.slice(0, 5) : word.length > 4 ? word.slice(0, 4) : word))].slice(0, 14);
+  }
+
+  inferTopic(query) {
+    const text = this.normalize(query);
+    const scores = Object.entries(this.data.topicWords).map(([topic, pattern]) => {
+      let score = (text.match(new RegExp(pattern, 'g')) || []).length;
+      if (score && ['enforcement', 'bankruptcy', 'procurement', 'customs'].includes(topic)) score += 2;
+      if (topic === 'tax' && text.includes('налог')) score += 3;
+      if (topic === 'construction' && /апз|эскиз|генплан/.test(text)) score += 3;
+      if (topic === 'agriculture' && text.includes('субсид')) score += 3;
+      return [topic, score];
+    }).sort((a, b) => b[1] - a[1]);
+    return scores[0]?.[1] ? scores[0][0] : '';
+  }
+
+  caseReference(query) {
+    const clean = query.trim().replace(/^дело\s*/i, '').replace(/^№\s*/, '').replace(/[–—]/g, '-');
+    return /^(?:[a-f\d]{8}(?:-[a-f\d]{4}){3}-[a-f\d]{12}|\d[\d\s/\-]{3,})$/i.test(clean)
+      ? clean.replace(/\s/g, '').toLowerCase() : '';
+  }
+
+  card(row) {
+    const [id, date, caseNumber, court, topic, subtopic, claim, outcome,
+      outcomeConfidence, topicConfidence, outcomeBasis, fragments] = row;
+    return {id, date, caseNumber, court, topic, subtopic, claim, outcome,
+      outcomeConfidence, topicConfidence, outcomeBasis, fragments, punishment: row[15] || ''};
+  }
+
+  search({query = '', topic = '', outcome = '', mode = 'question', page = 0} = {}) {
+    query = query.trim().slice(0, 1200);
+    const reference = this.caseReference(query);
+    const selectedTopic = topic || (mode === 'question' && !reference ? this.inferTopic(query) : '');
+    const terms = reference ? [] : this.terms(query);
+    const needsTopic = mode === 'question' && !reference && !selectedTopic;
+    let rows = needsTopic ? [] : this.records.filter(row =>
+      (!selectedTopic || row[4] === selectedTopic) && (!outcome || row[7] === outcome) &&
+      (mode !== 'question' || outcome || reference || row[13] === 'decision'));
+
+    if (reference) {
+      rows = rows.filter(row => row[0] === reference || row[2].replace(/\s/g, '').includes(reference));
+    } else if (terms.length) {
+      const candidates = [];
+      const frequencies = terms.map(() => 0);
+      for (const row of rows) {
+        const matches = terms.map((term, i) => {
+          const matched = row[12].includes(' ' + term);
+          if (matched) frequencies[i]++;
+          return matched;
+        });
+        const hits = matches.filter(Boolean).length;
+        if (hits >= Math.min(3, Math.max(1, Math.ceil(terms.length * 0.4)))) {
+          candidates.push({row, matches, hits});
+        }
+      }
+      const weights = frequencies.map(count => 1 + Math.log(1 + rows.length / (count + 1)));
+      for (const candidate of candidates) {
+        const claim = this.normalize(candidate.row[6]);
+        candidate.score = candidate.matches.reduce((score, matched, i) =>
+          score + (matched ? weights[i] : 0) + (claim.includes(terms[i]) ? weights[i] * 0.5 : 0), 0);
+      }
+      candidates.sort((a, b) => b.score - a.score || b.hits - a.hits || b.row[1].localeCompare(a.row[1]));
+      rows = candidates.map(candidate => candidate.row);
+    } else if (query && !reference) {
+      rows = [];
+    } else {
+      rows = [...rows].sort((a, b) => b[1].localeCompare(a[1]) || a[0].localeCompare(b[0]));
+    }
+
+    const matched = rows.length;
+    const bounded = Boolean(terms.length && matched > 400);
+    if (bounded) rows = rows.slice(0, 400);
+    const size = 18;
+    page = Math.max(0, Math.min(Math.floor(Number(page) || 0), Math.max(0, Math.ceil(rows.length / size) - 1)));
+    const guide = selectedTopic && rows.length ? this.data.guides[selectedTopic] : null;
+    const examples = guide ? this.data.examples.filter(example => example.topic === selectedTopic) : [];
+    const relevance = example => terms.filter(term => this.normalize(example.title + ' ' + example.reason).includes(term)).length;
+    examples.sort((a, b) => relevance(b) - relevance(a));
+    return {items: rows.slice(page * size, (page + 1) * size).map(row => this.card(row)),
+      total: rows.length, matched, bounded, size, page, topic: selectedTopic,
+      guide: guide || null, examples: examples.slice(0, 4), needsTopic};
+  }
+
+  factors(topic = '') {
+    // Admin decisions are compared by outcome (field 7); criminal verdicts by punishment type (field 15).
+    const field = this.data.stats.factorField ?? 7;
+    const denominators = {};
+    for (const row of this.records) {
+      if (!topic || row[4] === topic) denominators[row[field]] = (denominators[row[field]] || 0) + 1;
+    }
+    const groups = new Map();
+    for (const row of this.data.factorRows) {
+      if (topic && row.topic !== topic) continue;
+      if (!groups.has(row.factor)) groups.set(row.factor, {label: row.label});
+      const group = groups.get(row.factor);
+      group[row.outcome] = (group[row.outcome] || 0) + row.n;
+    }
+    const rows = [...groups.values()].sort((a, b) =>
+      (b.granted || 0) + (b.partial || 0) - (a.granted || 0) - (a.partial || 0));
+    return {rows, denominators};
+  }
+
+  getCase(id) {
+    const row = this.data.records.find(record => record[0] === id);
+    return row ? this.card(row) : null;
+  }
+}
+
+if (typeof module !== 'undefined') module.exports = {PracticeSearch};
+
+/* The index stays in a worker so loading and searching do not freeze the page. */
+let engine;
+
+async function loadIndex(url) {
+  if (typeof DecompressionStream === 'undefined') {
+    throw new Error('Обновите браузер: для открытия базы нужна поддержка gzip.');
+  }
+  const response = await fetch(url, {signal: AbortSignal.timeout(180000)});
+  if (!response.ok) throw new Error('Не удалось загрузить базу. Проверьте соединение и попробуйте ещё раз.');
+  const reader = response.body.getReader();
+  const total = Number(response.headers.get('Content-Length'));
+  let received = 0;
+  const chunks = [];
+  while (true) {
+    const {done, value} = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    received += value.length;
+    self.postMessage({type: 'progress', received, total});
+  }
+  self.postMessage({type: 'progress', message: 'Подготавливаем поиск…'});
+  const encoded = await new Blob(chunks).text();
+  const binary = atob(encoded.trim());
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  const text = await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+  const data = JSON.parse(text);
+  engine = new PracticeSearch(data);
+  return data.stats;
+}
+
+self.onmessage = async ({data: {id, method, params}}) => {
+  try {
+    let result;
+    if (method === 'init') result = await loadIndex(params.url);
+    else {
+      if (!engine) throw new Error('База ещё загружается.');
+      if (method === 'search') result = engine.search(params);
+      else if (method === 'factors') result = engine.factors(params.topic);
+      else if (method === 'case') result = engine.getCase(params.id);
+      else throw new Error('Неизвестная операция.');
+    }
+    self.postMessage({id, result});
+  } catch (error) {
+    self.postMessage({id, error: error.message});
+  }
+};
+</script>
+  <script>'use strict';
+
+const $ = id => document.getElementById(id);
+const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char =>
+  ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[char]));
+const number = value => Number(value).toLocaleString('ru-RU');
+const dateLabel = date => /^\d{4}-\d{2}-\d{2}$/.test(date) ? date.split('-').reverse().join('.') : 'Дата не указана';
+const plural = (n, [one, few, many]) => {
+  const mod10 = n % 10, mod100 = n % 100;
+  return mod10 === 1 && mod100 !== 11 ? one : mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14) ? few : many;
+};
+
+/* Each section has its own index, text bundles and wording; the interface is shared. */
+const SECTIONS = {
+  admin: {
+    prefix: '',
+    payload: 'data/offline-payload.b64',
+    bundles: 'data/source-bundles/',
+    title: 'Casebook — административные споры Казахстана',
+    brand: 'Административные споры · Казахстан',
+    collection: 'Коллекция решений',
+    units: ['судебный акт', 'судебных акта', 'судебных актов'],
+    topicUnits: ['тема', 'темы', 'тем'],
+    ready: 'решений',
+    topicWord: 'Тема', allTopics: 'Все темы', topicAuto: 'Определить по вопросу', topicLabel: 'Тема спора',
+    question: {
+      eyebrow: 'Поиск по ситуации',
+      heading: 'Найдите опору<br>в судебной практике.',
+      intro: 'Опишите спор. Посмотрите, какие доказательства исследовал суд и почему похожие дела закончились по-разному.',
+      label: 'Что произошло?',
+      placeholder: 'Например: ЧСИ неверно рассчитал задолженность по алиментам. У меня есть банковские переводы.',
+      submit: 'Найти решения',
+      examples: [
+        ['Земельный конкурс', 'Заявку на земельный конкурс отклонили из-за оформления документов'],
+        ['Расчёт алиментов', 'ЧСИ неправильно рассчитал задолженность по алиментам и учел переводы другого назначения'],
+        ['Налоговое уведомление', 'Налоговая выставила уведомление из-за контрагента. Работы выполнены и оплачены'],
+        ['Жилищные выплаты', 'Отказали в жилищных выплатах, потому что есть квартира в ипотеке'],
+      ],
+      welcome: [
+        ['01 / НАЙТИ', 'Похожие дела', 'По предмету спора, требованиям и обстоятельствам.'],
+        ['02 / СРАВНИТЬ', 'Позиции суда', 'Удовлетворение иска, частичный результат или отказ.'],
+        ['03 / ПРОВЕРИТЬ', 'Первоисточник', 'Полный текст решения и переход к конкретной цитате.'],
+      ],
+      needsTopic: 'Не удалось определить тему спора. Укажите орган, его действие и причину отказа или выберите тему вручную.',
+    },
+    registry: {
+      nav: 'Реестр решений', heading: 'Реестр решений',
+      intro: 'Выберите тему и исход или найдите дело по номеру. Точные повторы исключены из списка.',
+      placeholder: 'Например, 2794-21-00-4/481',
+    },
+    factors: {
+      eyebrow: 'Анализ решений', heading: 'Обстоятельства спора',
+      intro: 'Какие формулировки встречаются в мотивировках и как распределяются по исходам дел.',
+      notice: 'Частота формулировки не показывает вероятность выигрыша. В одном деле может быть несколько требований с разными исходами. Для вывода по своему спору прочитайте полную мотивировку.',
+      region: 'Обстоятельства по исходам дел',
+    },
+    summary: metadata => ['granted', 'partial', 'refused'].map(key => [metadata.outcomes[key], metadata.labels[key]]),
+    open: 'Открыть решение', fragments: 'Фрагменты решения', loading: 'Ищем подходящие решения…', registryLoading: 'Загружаем решения…',
+    opening: 'Открываем решение…', emptyTitle: 'Подходящих решений не найдено', uncertain: 'Тема или исход требуют проверки по тексту.',
+    fragmentNote: 'Фрагменты найдены автоматически. Проверьте их в контексте требований по делу.',
+    claimFallback: 'Требования изложены в полном тексте решения.',
+    sourceNotice: 'Разметка темы и исхода автоматическая. Последующее обжалование и исполнение решения не проверены.',
+    resultsTitle: 'Найденные решения', missing: 'Текст решения не найден в коллекции.', notFound: 'Решение не найдено в коллекции.',
+  },
+  criminal: {
+    prefix: 'criminal/',
+    payload: 'data/criminal/offline-payload.b64',
+    bundles: 'data/criminal/source-bundles/',
+    title: 'Casebook — уголовные дела Казахстана',
+    brand: 'Уголовные дела · Казахстан',
+    collection: 'Коллекция приговоров',
+    units: ['приговор', 'приговора', 'приговоров'],
+    topicUnits: ['категория', 'категории', 'категорий'],
+    ready: 'приговоров',
+    topicWord: 'Категория', allTopics: 'Все категории', topicAuto: 'Определить по описанию', topicLabel: 'Категория дела',
+    question: {
+      eyebrow: 'Уголовные дела',
+      heading: 'Как суды решают<br>похожие уголовные дела.',
+      intro: 'Опишите обстоятельства. Посмотрите, какие наказания назначали суды, что учитывали как смягчающие и отягчающие обстоятельства.',
+      label: 'Что произошло?',
+      placeholder: 'Например: украл телефон в магазине, ущерб возместил, вину признал.',
+      submit: 'Найти приговоры',
+      examples: [
+        ['Кража телефона', 'Тайно похитил сотовый телефон, ущерб возмещён, вину признал'],
+        ['Мошенничество', 'Мошенничество через интернет: получил предоплату и не передал товар'],
+        ['Наркотики', 'Хранение наркотических средств без цели сбыта'],
+        ['Вождение пьяным', 'Управлял автомобилем в состоянии алкогольного опьянения, будучи лишённым прав'],
+      ],
+      welcome: [
+        ['01 / НАЙТИ', 'Похожие приговоры', 'По статье, обстоятельствам и способу совершения.'],
+        ['02 / СРАВНИТЬ', 'Наказания', 'Лишение свободы, ограничение свободы, штраф или иное.'],
+        ['03 / ПРОВЕРИТЬ', 'Первоисточник', 'Полный обезличенный текст приговора.'],
+      ],
+      needsTopic: 'Не удалось определить категорию дела. Опишите деяние подробнее (например, «кража», «мошенничество», «побои») или выберите категорию вручную.',
+    },
+    registry: {
+      nav: 'Реестр приговоров', heading: 'Реестр приговоров',
+      intro: 'Выберите категорию и исход или найдите дело по номеру. Имена участников заменены на ФИО-1, ФИО-2 и т. д.',
+      placeholder: 'Например, 7513-24-00-1/283',
+    },
+    factors: {
+      eyebrow: 'Анализ приговоров', heading: 'Обстоятельства и наказание',
+      intro: 'Какие обстоятельства упоминаются в приговорах и как они распределяются по видам назначенного наказания.',
+      notice: 'Частота упоминания не показывает, какое наказание назначат по другому делу. Обстоятельство может упоминаться в тексте и в другом контексте, например при перечислении доводов сторон.',
+      region: 'Обстоятельства по видам наказания',
+    },
+    summary: metadata => (metadata.factorColumns || []).map(([key, title]) => [metadata.punishments?.[key] || 0, title]),
+    open: 'Открыть приговор', fragments: 'Фрагменты приговора', loading: 'Ищем похожие приговоры…', registryLoading: 'Загружаем приговоры…',
+    opening: 'Открываем приговор…', emptyTitle: 'Подходящих приговоров не найдено', uncertain: 'Категория или исход требуют проверки по тексту.',
+    fragmentNote: 'Фрагменты найдены автоматически. Проверьте их в контексте всего приговора.',
+    claimFallback: 'Обвинение изложено в полном тексте приговора.',
+    sourceNotice: 'Категория, исход и вид наказания размечены автоматически. Имена заменены на ФИО-N, даты рождения сокращены до года, адреса и ИИН скрыты. Обжалование приговора не проверено.',
+    resultsTitle: 'Найденные приговоры', missing: 'Текст приговора не найден в коллекции.', notFound: 'Приговор не найден в коллекции.',
+  },
+  civil: {
+    prefix: 'civil/',
+    payload: 'data/civil/offline-payload.b64',
+    bundles: 'data/civil/source-bundles/',
+    title: 'Casebook — гражданские дела Казахстана',
+    brand: 'Гражданские дела · Казахстан',
+    collection: 'Коллекция решений',
+    units: ['судебный акт', 'судебных акта', 'судебных актов'],
+    topicUnits: ['тема', 'темы', 'тем'],
+    ready: 'судебных актов',
+    topicWord: 'Тема', allTopics: 'Все темы', topicAuto: 'Определить по описанию', topicLabel: 'Тема дела',
+    question: {
+      eyebrow: 'Гражданские дела',
+      heading: 'Как суды решают<br>гражданские споры.',
+      intro: 'Опишите спор. Посмотрите, какие требования заявляли истцы, как суды их оценивали и чем заканчивались похожие дела.',
+      label: 'Что произошло?',
+      placeholder: 'Например: работодатель уволил меня без объяснения причин, прошу восстановить на работе.',
+      submit: 'Найти решения',
+      examples: [
+        ['Раздел имущества', 'Бывшие супруги делят квартиру и имущество, нажитое в браке'],
+        ['Увольнение', 'Работодатель незаконно уволил и не выплатил заработную плату за вынужденный прогул'],
+        ['Взыскание долга', 'Взыскание задолженности по договору займа и неустойки'],
+        ['Недействительная сделка', 'Признание договора купли-продажи недействительным'],
+      ],
+      welcome: [
+        ['01 / НАЙТИ', 'Похожие дела', 'По требованиям истца, предмету спора и обстоятельствам.'],
+        ['02 / СРАВНИТЬ', 'Позиции суда', 'Иск удовлетворён, удовлетворён частично или отказано.'],
+        ['03 / ПРОВЕРИТЬ', 'Первоисточник', 'Полный обезличенный текст решения.'],
+      ],
+      needsTopic: 'Не удалось определить тему дела. Опишите спор подробнее (например, «долг», «увольнение», «раздел имущества») или выберите тему вручную.',
+    },
+    registry: {
+      nav: 'Реестр решений', heading: 'Реестр решений',
+      intro: 'Выберите тему и исход или найдите дело по номеру. Имена участников заменены на ФИО-1, ФИО-2 и т. д. Решения судов первой инстанции и апелляционные постановления показаны вместе.',
+      placeholder: 'Например, 7585-24-00-2/101',
+    },
+    factors: {
+      eyebrow: 'Анализ решений', heading: 'Обстоятельства спора',
+      intro: 'Какие формулировки встречаются в мотивировках и как распределяются по исходам решений первой инстанции.',
+      notice: 'Частота формулировки не показывает вероятность выигрыша. В одном деле может быть несколько требований с разными исходами. Для вывода по своему спору прочитайте полную мотивировку.',
+      region: 'Обстоятельства по исходам дел',
+    },
+    summary: metadata => ['granted', 'partial', 'refused'].map(key => [metadata.outcomes[key], metadata.labels[key]]),
+    open: 'Открыть решение', fragments: 'Фрагменты решения', loading: 'Ищем похожие дела…', registryLoading: 'Загружаем решения…',
+    opening: 'Открываем решение…', emptyTitle: 'Подходящих решений не найдено', uncertain: 'Тема или исход требуют проверки по тексту.',
+    fragmentNote: 'Фрагменты найдены автоматически. Проверьте их в контексте требований по делу.',
+    claimFallback: 'Требования изложены в полном тексте решения.',
+    sourceNotice: 'Тема, исход и обстоятельства размечены автоматически. Имена заменены на ФИО-N, даты рождения сокращены до года, адреса и ИИН скрыты. Обжалование решений первой инстанции не проверено.',
+    resultsTitle: 'Найденные решения', missing: 'Текст решения не найден в коллекции.', notFound: 'Решение не найдено в коллекции.',
+  },
+};
+
+const state = {};
+for (const key of Object.keys(SECTIONS)) {
+  state[key] = {worker: null, workerURL: null, ready: false, metadata: null, pending: new Map(), sequence: 0,
+    loading: null, questionState: null, registryState: {mode: 'registry'}, bundles: new Map(), status: ['', '']};
+}
+let section = 'admin';
+let viewSequence = 0;
+let sourceController;
+let lastSection = 'question';
+let lastScroll = 0;
+
+const S = () => state[section];
+const C = () => SECTIONS[section];
+const viewHash = (view, key = section) => '#' + SECTIONS[key].prefix + view;
+const caseLink = (id, line, key = section) => '#' + SECTIONS[key].prefix + 'case=' + encodeURIComponent(id) + (line ? '&line=' + line : '');
+
+function request(method, params = {}, key = section) {
+  const sectionState = state[key];
+  return new Promise((resolve, reject) => {
+    const id = ++sectionState.sequence;
+    sectionState.pending.set(id, {resolve, reject});
+    sectionState.worker.postMessage({id, method, params});
+  });
+}
+
+function setStatus(message, status = '', key = section) {
+  state[key].status = [message, status];
+  if (key !== section) return;
+  $('status-text').textContent = message;
+  $('database-status').className = 'database-status ' + status;
+  $('retry-load').hidden = status !== 'failed';
+}
+
+function rejectPending(key, message) {
+  for (const {reject} of state[key].pending.values()) reject(new Error(message));
+  state[key].pending.clear();
+}
+
+function setControls() {
+  document.querySelectorAll('[data-needs-data]').forEach(element => element.disabled = !S().ready);
+}
+
+function fillSelect(id, entries, firstLabel) {
+  const select = $(id);
+  const selected = select.value;
+  while (select.options.length) select.remove(0);
+  select.add(new Option(firstLabel, ''));
+  for (const [key, title] of entries) select.add(new Option(title, key));
+  select.value = [...select.options].some(option => option.value === selected) ? selected : '';
+}
+
+function applyMetadata() {
+  const config = C();
+  const metadata = S().metadata;
+  fillSelect('question-topic', metadata ? Object.entries(metadata.topics) : [], config.topicAuto);
+  fillSelect('registry-topic', metadata ? Object.entries(metadata.topics) : [], config.allTopics);
+  fillSelect('factor-topic', metadata ? Object.entries(metadata.topics) : [], config.allTopics);
+  fillSelect('registry-outcome', metadata ? Object.entries(metadata.labels).filter(([key]) => metadata.outcomes[key]) : [], 'Все исходы');
+  if (!metadata) { $('summary').innerHTML = ''; return; }
+  const topics = Object.keys(metadata.topics).length;
+  $('unique').textContent = number(metadata.unique);
+  $('collection-note').textContent = `${plural(metadata.unique, config.units)} · ${topics} ${plural(topics, config.topicUnits)}`;
+  const count = $(section + '-count');
+  if (count) count.textContent = number(metadata.unique);
+  $('summary').innerHTML = config.summary(metadata).map(([count, label]) =>
+    `<div class="metric"><strong>${number(count || 0)}</strong><span>${escapeHTML(label)}</span></div>`).join('');
+}
+
+async function initialize(key = section) {
+  const sectionState = state[key];
+  const config = SECTIONS[key];
+  sectionState.ready = false;
+  if (key === section) setControls();
+  setStatus('Загружаем базу…', '', key);
+  if (sectionState.worker) {
+    sectionState.worker.onmessage = null;
+    sectionState.worker.onerror = null;
+    sectionState.worker.terminate();
+    if (sectionState.workerURL) URL.revokeObjectURL(sectionState.workerURL);
+    rejectPending(key, 'Загрузка перезапущена.');
+  }
+  try {
+    sectionState.workerURL = URL.createObjectURL(new Blob([$('search-worker').textContent], {type: 'text/javascript'}));
+    const worker = new Worker(sectionState.workerURL);
+    sectionState.worker = worker;
+    worker.onerror = () => {
+      rejectPending(key, 'Не удалось подготовить поиск. Попробуйте обновить страницу.');
+      setStatus('Не удалось подготовить поиск.', 'failed', key);
+    };
+    worker.onmessage = ({data}) => {
+      // WebKit may still be reading the blob until the worker sends its first message.
+      if (sectionState.workerURL) { URL.revokeObjectURL(sectionState.workerURL); sectionState.workerURL = null; }
+      if (data.type === 'progress') {
+        const megabytes = (data.received / 1024 / 1024).toFixed(1);
+        setStatus(data.message || 'Загружаем базу · ' + megabytes + ' МБ', '', key);
+        return;
+      }
+      const task = sectionState.pending.get(data.id);
+      if (!task) return;
+      sectionState.pending.delete(data.id);
+      if (data.error) task.reject(new Error(data.error));
+      else task.resolve(data.result);
+    };
+    sectionState.metadata = await request('init', {url: new URL(config.payload, location.href).href}, key);
+    sectionState.ready = true;
+    setStatus('База готова · ' + number(sectionState.metadata.unique) + ' ' + config.ready, 'ready', key);
+    if (key === section) {
+      applyMetadata();
+      setControls();
+      route();
+    }
+  } catch (error) {
+    setStatus(error.message, 'failed', key);
+  }
+}
+
+function applySection() {
+  const config = C();
+  document.title = config.title;
+  document.documentElement.dataset.section = section;
+  $('brand-sub').textContent = config.brand;
+  $('collection-eyebrow').textContent = config.collection;
+  document.querySelectorAll('.section-link').forEach(link => {
+    const active = link.dataset.section === section;
+    link.classList.toggle('active', active);
+    if (active) link.setAttribute('aria-current', 'true'); else link.removeAttribute('aria-current');
+  });
+  document.querySelectorAll('.nav').forEach(link => link.setAttribute('href', viewHash(link.dataset.view)));
+  $('nav-registry').textContent = config.registry.nav;
+  const q = config.question;
+  $('question-eyebrow').textContent = q.eyebrow;
+  $('question-heading').innerHTML = q.heading;
+  $('question-intro').textContent = q.intro;
+  $('question-label').textContent = q.label;
+  $('question').placeholder = q.placeholder;
+  $('question').value = '';
+  $('question-topic-label').textContent = config.topicLabel;
+  $('question-submit').textContent = q.submit;
+  $('examples').innerHTML = '<span>Например</span>' + q.examples.map(([label, text]) =>
+    `<button type="button" data-needs-data data-question="${escapeHTML(text)}">${escapeHTML(label)}</button>`).join('');
+  $('answer').innerHTML = welcome();
+  $('registry-heading').textContent = config.registry.heading;
+  $('registry-intro').textContent = config.registry.intro;
+  $('registry-query').placeholder = config.registry.placeholder;
+  $('registry-query').value = '';
+  $('registry-results').innerHTML = '';
+  $('factors-eyebrow').textContent = config.factors.eyebrow;
+  $('factors-heading').textContent = config.factors.heading;
+  $('factors-intro').textContent = config.factors.intro;
+  $('factors-notice').textContent = config.factors.notice;
+  $('factor-results').innerHTML = '';
+  document.querySelectorAll('.topic-word').forEach(element => element.textContent = config.topicWord);
+  $('unique').textContent = '…';
+  $('collection-note').textContent = '';
+  applyMetadata();
+  setControls();
+  const [message, status] = S().status;
+  setStatus(message || 'Загружаем базу…', status);
+}
+
+function welcome() {
+  return '<div class="welcome">' + C().question.welcome.map(([step, title, text]) =>
+    `<article><span class="step">${escapeHTML(step)}</span><h2>${escapeHTML(title)}</h2><p>${escapeHTML(text)}</p></article>`).join('') + '</div>';
+}
+
+function badge(outcome) {
+  return `<span class="tag ${escapeHTML(outcome)}">${escapeHTML(S().metadata.labels[outcome] || outcome)}</span>`;
+}
+
+function punishmentTag(row) {
+  const columns = S().metadata.factorColumns;
+  if (!columns || !row.punishment || row.outcome !== 'convicted' && row.outcome !== 'partial') return '';
+  const title = Object.fromEntries(columns)[row.punishment];
+  return title ? `<span class="tag punishment ${escapeHTML(row.punishment)}">${escapeHTML(title)}</span>` : '';
+}
+
+function documentCard(row) {
+  const config = C();
+  const metadata = S().metadata;
+  const uncertain = row.topicConfidence !== 'высокая' || row.outcomeConfidence !== 'высокая';
+  return `<article class="card">
+    <div class="card-top"><span class="tags">${badge(row.outcome)}${punishmentTag(row)}</span><span class="case-date">${escapeHTML(dateLabel(row.date))}</span></div>
+    <h3>${escapeHTML(row.subtopic || metadata.topics[row.topic])}</h3>
+    <div class="meta">${escapeHTML(row.caseNumber || 'Номер дела не указан')}</div>
+    <p class="claim">${escapeHTML(row.claim || config.claimFallback)}</p>
+    ${uncertain ? `<p class="review-note">${escapeHTML(config.uncertain)}</p>` : ''}
+    ${row.fragments.length ? `<details><summary>${escapeHTML(config.fragments)}</summary><p class="muted">${escapeHTML(config.fragmentNote)}</p>
+      ${row.fragments.map(fragment => `<p><b>${escapeHTML(fragment.label)}</b></p><blockquote>${escapeHTML(fragment.quote)}</blockquote>`).join('')}
+      <small class="muted">Разметка: ${escapeHTML(config.topicWord.toLowerCase())} — ${escapeHTML(row.topicConfidence)}, исход — ${escapeHTML(row.outcomeConfidence)} уверенность.</small>
+    </details>` : ''}
+    <a class="card-link" href="${caseLink(row.id)}">${escapeHTML(config.open)} <span aria-hidden="true">↗</span></a>
+  </article>`;
+}
+
+function exampleCard(example) {
+  return `<article class="card">
+    <div class="card-top">${badge(example.outcome)}<span class="tag example">Пример с разбором</span></div>
+    <h3>${escapeHTML(example.title)}</h3><div class="meta">${escapeHTML(dateLabel(example.date))} · ${escapeHTML(example.case_number || 'Номер не указан')}</div>
+    <p>${escapeHTML(example.reason)}</p><div class="label">Доказательства</div><p>${escapeHTML(example.evidence)}</p>
+    <div class="label">Результат</div><p>${escapeHTML(example.result)}</p>
+    <details><summary>Цитаты из решения (${example.quotes.length})</summary>${example.quotes.map(quote =>
+      `<blockquote>${escapeHTML(quote.text)}</blockquote><a href="${caseLink(example.id, quote.line)}">Показать в документе ↗</a>`).join('')}</details>
+    <a class="card-link" href="${caseLink(example.id)}">Открыть решение ↗</a>
+  </article>`;
+}
+
+function pagination(data, kind) {
+  if (data.total <= data.size) return '';
+  return `<div class="pagination" aria-label="Страницы результатов">
+    <button class="secondary" data-page="${data.page - 1}" data-kind="${kind}" ${data.page === 0 ? 'disabled' : ''}>← Назад</button>
+    <span>${data.page + 1} из ${Math.ceil(data.total / data.size)}</span>
+    <button class="secondary" data-page="${data.page + 1}" data-kind="${kind}" ${(data.page + 1) * data.size >= data.total ? 'disabled' : ''}>Далее →</button>
+  </div>`;
+}
+
+function resultCount(data) {
+  return `<p class="result-count">Найдено: ${number(data.matched)}.${data.bounded ? ' Показаны 400 наиболее близких совпадений. Уточните запрос, чтобы сузить список.' : ''}</p>`;
+}
+
+function emptyState(message) {
+  return `<div class="empty"><h2>${escapeHTML(C().emptyTitle)}</h2><p>${escapeHTML(message)}</p></div>`;
+}
+
+async function runQuestion(page = 0, newSearch = false) {
+  const sectionState = S();
+  if (!sectionState.ready) return;
+  if (newSearch || !sectionState.questionState) {
+    const query = $('question').value.trim();
+    if (!query) { $('question').focus(); return; }
+    sectionState.questionState = {query, topic: $('question-topic').value, mode: 'question'};
+  }
+  const serial = ++viewSequence;
+  const config = C();
+  const metadata = sectionState.metadata;
+  $('answer').innerHTML = `<p class="loading">${escapeHTML(config.loading)}</p>`;
+  try {
+    const data = await request('search', {...sectionState.questionState, page});
+    if (serial !== viewSequence) return;
+    if (!data.items.length) {
+      $('answer').innerHTML = emptyState(data.needsTopic ? config.question.needsTopic
+        : 'Попробуйте сократить запрос, изменить ' + config.topicWord.toLowerCase() + ' или найти дело по номеру в реестре.');
+      return;
+    }
+    let body = `<div class="answer-head"><h2>${escapeHTML(metadata.topics[data.topic] || 'Результаты поиска')}</h2><span class="tag">По материалам коллекции</span></div>`;
+    if (data.guide) {
+      body += '<h2>Какие доказательства подготовить</h2><p class="muted">Перечень по теме спора. Точный состав зависит от ваших требований и основания отказа.</p><div class="evidence-list">';
+      body += data.guide.evidence.map(([title, documents, reason], index) =>
+        `<article class="evidence"><span class="index">${String(index + 1).padStart(2, '0')}</span><h3>${escapeHTML(title)}</h3><p>${escapeHTML(documents)}</p><p class="why">${escapeHTML(reason)}</p></article>`).join('') + '</div>';
+    }
+    if (data.examples.length) {
+      body += '<h2>Что повлияло на результат в похожих делах</h2><p class="muted">Примеры по теме. Обстоятельства могут отличаться от вашей ситуации.</p><div class="cards">' + data.examples.map(exampleCard).join('') + '</div>';
+    }
+    if (data.guide) body += '<div class="questions"><h3>Что ещё уточнить</h3><ol>' + data.guide.questions.map(question => '<li>' + escapeHTML(question) + '</li>').join('') + '</ol></div>';
+    body += `<h2 id="question-results-heading">${escapeHTML(config.resultsTitle)}</h2>` + resultCount(data) + '<div class="cards">' + data.items.map(documentCard).join('') + '</div>' + pagination(data, 'question');
+    $('answer').innerHTML = body;
+    if (page) $('question-results-heading').scrollIntoView();
+  } catch (error) {
+    if (serial === viewSequence) $('answer').innerHTML = '<p class="error">' + escapeHTML(error.message) + '</p>';
+  }
+}
+
+async function loadRegistry(page = 0, newSearch = false) {
+  const sectionState = S();
+  if (!sectionState.ready) return;
+  if (newSearch) sectionState.registryState = {query: $('registry-query').value, topic: $('registry-topic').value, outcome: $('registry-outcome').value, mode: 'registry'};
+  const serial = ++viewSequence;
+  $('registry-results').innerHTML = `<p class="loading">${escapeHTML(C().registryLoading)}</p>`;
+  try {
+    const data = await request('search', {...sectionState.registryState, page});
+    if (serial !== viewSequence) return;
+    $('registry-results').innerHTML = data.items.length
+      ? resultCount(data) + '<div class="cards">' + data.items.map(documentCard).join('') + '</div>' + pagination(data, 'registry')
+      : emptyState('Измените фильтры или проверьте номер дела.');
+    if (page) $('registry-results').scrollIntoView();
+  } catch (error) {
+    if (serial === viewSequence) $('registry-results').innerHTML = '<p class="error">' + escapeHTML(error.message) + '</p>';
+  }
+}
+
+async function loadFactors() {
+  if (!S().ready) return;
+  const serial = ++viewSequence;
+  const metadata = S().metadata;
+  const columns = metadata.factorColumns || [['granted', 'Удовлетворён'], ['partial', 'Частично'], ['refused', 'Отказано']];
+  $('factor-results').innerHTML = '<p class="loading">Считаем формулировки…</p>';
+  try {
+    const data = await request('factors', {topic: $('factor-topic').value});
+    if (serial !== viewSequence) return;
+    $('factor-results').innerHTML = data.rows.length ? `<div class="tablewrap" tabindex="0" role="region" aria-label="${escapeHTML(C().factors.region)}"><table><caption>Количество текстов с найденной формулировкой</caption><thead><tr><th scope="col">Формулировка</th>` +
+      columns.map(([, title]) => `<th scope="col">${escapeHTML(title)}</th>`).join('') + '</tr></thead><tbody>' + data.rows.map(row =>
+      '<tr><th scope="row">' + escapeHTML(row.label) + '</th>' + columns.map(([key]) =>
+        `<td>${number(row[key] || 0)}<small>из ${number(data.denominators[key] || 0)} текстов</small></td>`).join('') + '</tr>').join('') + '</tbody></table></div><p class="muted">В одном тексте может быть несколько формулировок. Если формулировка не найдена, это не означает отсутствия обстоятельства.</p>'
+      : emptyState('Для выбранной категории формулировки не найдены.');
+  } catch (error) {
+    if (serial === viewSequence) $('factor-results').innerHTML = '<p class="error">' + escapeHTML(error.message) + '</p>';
+  }
+}
+
+async function fetchSourceText(id, signal) {
+  const sectionState = S();
+  const bucket = id.slice(0, 2).toLowerCase();
+  let documents = sectionState.bundles.get(bucket);
+  if (!documents) {
+    const response = await fetch(`${C().bundles}${bucket}.json.gz`, {signal});
+    if (!response.ok) throw new Error('Не удалось загрузить текст. Проверьте соединение и повторите попытку.');
+    const compressed = await response.arrayBuffer();
+    const decoded = await new Response(new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+    documents = JSON.parse(decoded);
+    sectionState.bundles.set(bucket, documents);
+    if (sectionState.bundles.size > 8) sectionState.bundles.delete(sectionState.bundles.keys().next().value);
+  }
+  const text = documents[id];
+  if (typeof text !== 'string' || !text.trim()) throw new Error(C().missing);
+  return text;
+}
+
+async function openCase(id, line) {
+  const config = C();
+  const back = viewHash(lastSection);
+  if (!document.querySelector('.shell').hidden) lastScroll = window.scrollY;
+  document.querySelector('.shell').hidden = true;
+  $('source-view').hidden = false;
+  $('source-view').innerHTML = `<div class="source-toolbar"><a class="secondary" href="${back}">← Вернуться к результатам</a></div><p class="loading">${escapeHTML(config.opening)}</p>`;
+  window.scrollTo(0, 0);
+  const controller = new AbortController();
+  sourceController = controller;
+  try {
+    if (!/^[a-f\d]{8}(?:-[a-f\d]{4}){3}-[a-f\d]{12}$/i.test(id)) throw new Error('Некорректная ссылка на документ.');
+    const row = await request('case', {id});
+    if (controller.signal.aborted) return;
+    if (!row) throw new Error(config.notFound);
+    const timeout = setTimeout(() => controller.abort(new Error('Сервер долго не отвечает. Попробуйте открыть документ ещё раз.')), 45000);
+    let text;
+    try {
+      text = await fetchSourceText(id, controller.signal);
+    } finally { clearTimeout(timeout); }
+    if (controller.signal.aborted) return;
+    const metadata = S().metadata;
+    $('source-view').innerHTML = `<div class="source-toolbar"><a class="secondary" href="${back}">← Вернуться к результатам</a><button id="copy-case-link" class="text-button">Скопировать ссылку</button></div>
+      <h1>Дело ${escapeHTML(row.caseNumber || row.id)}</h1><p class="source-meta">${escapeHTML(dateLabel(row.date))} · ${escapeHTML(row.subtopic && section !== 'admin' ? row.subtopic : metadata.topics[row.topic])}</p><p class="source-meta">${escapeHTML(row.court)}</p><span class="tags">${badge(row.outcome)}${punishmentTag(row)}</span>
+      <p class="notice">${escapeHTML(config.sourceNotice)}</p>
+      <div class="fulltext">${text.split('\n').map((content, index) => `<div class="line" id="L${index + 1}"><span>${escapeHTML(content)}</span></div>`).join('')}</div>`;
+    $('copy-case-link').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(location.href);
+        $('copy-case-link').textContent = 'Ссылка скопирована';
+      } catch {
+        $('copy-case-link').textContent = 'Скопируйте адрес из строки браузера';
+      }
+    });
+    const anchor = $('L' + Math.max(1, Number(line) || 1));
+    if (line && anchor) { anchor.classList.add('highlight'); anchor.scrollIntoView(); }
+    else $('source-view').focus({preventScroll: true});
+  } catch (error) {
+    if (controller.signal.aborted && controller.signal.reason?.name === 'AbortError') return;
+    $('source-view').insertAdjacentHTML('beforeend', '<p class="error" role="alert">' + escapeHTML(error.message) + '</p><button class="secondary" id="retry-source">Попробовать ещё раз</button>');
+    $('source-view').querySelector('.loading')?.remove();
+    $('retry-source').onclick = () => openCase(id, line);
+  }
+}
+
+function parseHash() {
+  let hash = location.hash.slice(1);
+  let key = 'admin';
+  for (const [name, config] of Object.entries(SECTIONS)) {
+    const bare = config.prefix.replace(/\/$/, '');
+    if (bare && (hash === bare || hash.startsWith(config.prefix))) {
+      key = name;
+      hash = hash.slice(config.prefix.length);
+    }
+  }
+  return {key, hash};
+}
+
+function route() {
+  sourceController?.abort();
+  const {key, hash} = parseHash();
+  if (key !== section) {
+    section = key;
+    ++viewSequence;
+    applySection();
+    if (!S().ready && !S().loading) S().loading = initialize(key);
+    else if (!S().ready) setStatus(...S().status);
+  }
+  if (hash.startsWith('case=')) {
+    if (S().ready) {
+      const params = new URLSearchParams(hash);
+      openCase(params.get('case') || '', params.get('line'));
+    }
+    return;
+  }
+  const view = ['question', 'registry', 'factors', 'method'].includes(hash) ? hash : 'question';
+  const returning = !$('source-view').hidden;
+  const changed = view !== lastSection;
+  lastSection = view;
+  $('source-view').hidden = true;
+  document.querySelector('.shell').hidden = false;
+  document.querySelectorAll('#main-content > section').forEach(element => element.hidden = element.id !== view + '-view');
+  document.querySelectorAll('.nav').forEach(link => {
+    link.classList.toggle('active', link.dataset.view === view);
+    if (link.dataset.view === view) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+  if (changed) ++viewSequence;
+  if (view === 'registry' && (!returning || !$('registry-results').innerHTML)) loadRegistry();
+  if (view === 'factors' && (!returning || !$('factor-results').innerHTML)) loadFactors();
+  if (returning) window.scrollTo(0, lastScroll);
+  else if (changed) window.scrollTo(0, 0);
+}
+
+$('ask').addEventListener('submit', event => { event.preventDefault(); runQuestion(0, true); });
+$('filter').addEventListener('submit', event => { event.preventDefault(); loadRegistry(0, true); });
+$('factor-topic').addEventListener('change', loadFactors);
+$('retry-load').addEventListener('click', () => { S().loading = initialize(section); });
+document.addEventListener('click', event => {
+  const button = event.target.closest('[data-question], [data-page]');
+  if (!button || button.disabled) return;
+  if (button.dataset.question) {
+    $('question').value = button.dataset.question;
+    $('question-topic').value = '';
+    runQuestion(0, true);
+  } else if (button.dataset.kind === 'registry') loadRegistry(Number(button.dataset.page));
+  else runQuestion(Number(button.dataset.page));
+});
+window.addEventListener('hashchange', route);
+section = parseHash().key;
+applySection();
+route();
+S().loading = initialize(section);
+</script>
+</body>
+</html>

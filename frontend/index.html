@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Casebook — поиск по административным и уголовным делам Казахстана. Судебные акты, доказательства и выводы суда с переходом к полному тексту.">
+  <meta name="theme-color" content="#162e37">
+  <title>Casebook — судебная практика Казахстана</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2212%22%20fill%3D%22%23162e37%22%2F%3E%3Cpath%20d%3D%22M44%2020a17%2017%200%201%200%200%2024%22%20fill%3D%22none%22%20stroke%3D%22%23e4bd7b%22%20stroke-width%3D%225%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E">
+  <style>{{STYLES}}</style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">К содержимому</a>
+  <header class="topbar">
+    <a class="brand" href="#question" aria-label="Casebook — на главную">
+      <span class="brand-symbol" aria-hidden="true">C</span>
+      <span>Casebook<small id="brand-sub">Административные споры · Казахстан</small></span>
+    </a>
+    <a class="author-link" href="https://github.com/aemkls/sudebnaya-praktika" target="_blank" rel="noopener">Проект aemkls <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="section-switch" role="group" aria-label="Раздел практики">
+        <a href="#question" class="section-link active" data-section="admin" aria-current="true">Административные</a>
+        <a href="#criminal/question" class="section-link" data-section="criminal">Уголовные</a>
+        <a href="#civil/question" class="section-link" data-section="civil">Гражданские</a>
+      </div>
+      <div class="collection"><span class="eyebrow" id="collection-eyebrow">Коллекция решений</span><strong id="unique">21 795</strong><span id="collection-note">судебных актов · 28 тем</span></div>
+      <nav aria-label="Основные разделы">
+        <a href="#question" class="nav active" data-view="question" aria-current="page"><span aria-hidden="true">⌕</span> Поиск по ситуации</a>
+        <a href="#registry" class="nav" data-view="registry"><span aria-hidden="true">≡</span> <em class="nav-label" id="nav-registry">Реестр решений</em></a>
+        <a href="#factors" class="nav" data-view="factors"><span aria-hidden="true">▥</span> Обстоятельства</a>
+        <a href="#method" class="nav" data-view="method"><span aria-hidden="true">ⓘ</span> О проекте</a>
+      </nav>
+      <div class="sidebar-note"><span class="small-rule"></span><p>Понять позицию суда.<br>Найти нужные доказательства.</p><small>Исследовательский проект<br>по судебной практике Казахстана</small></div>
+    </aside>
+    <main id="main-content" tabindex="-1">
+      <div id="database-status" class="database-status" role="status" aria-live="polite">
+        <span class="status-dot" aria-hidden="true"></span><span id="status-text">Загружаем базу…</span><button id="retry-load" class="text-button" hidden>Повторить</button>
+      </div>
+      <section id="question-view" aria-labelledby="question-heading">
+        <div class="page-heading"><p class="eyebrow" id="question-eyebrow">Поиск по ситуации</p><h1 id="question-heading">Найдите опору<br>в судебной практике.</h1><p class="intro" id="question-intro">Опишите спор. Посмотрите, какие доказательства исследовал суд и почему похожие дела закончились по-разному.</p></div>
+        <form id="ask" class="search-form">
+          <fieldset data-needs-data disabled>
+            <label for="question" id="question-label">Что произошло?</label>
+            <textarea id="question" rows="3" maxlength="1200" required placeholder="Например: ЧСИ неверно рассчитал задолженность по алиментам. У меня есть банковские переводы."></textarea>
+            <div class="formrow"><label for="question-topic"><span id="question-topic-label">Тема спора</span><select id="question-topic"><option value="">Определить по вопросу</option></select></label><button class="primary" type="submit"><span id="question-submit">Найти решения</span> <span aria-hidden="true">↗</span></button></div>
+          </fieldset>
+        </form>
+        <div class="examples" id="examples" aria-label="Примеры запросов"><span>Например</span><button data-needs-data disabled data-question="Заявку на земельный конкурс отклонили из-за оформления документов">Земельный конкурс</button><button data-needs-data disabled data-question="ЧСИ неправильно рассчитал задолженность по алиментам и учел переводы другого назначения">Расчёт алиментов</button><button data-needs-data disabled data-question="Налоговая выставила уведомление из-за контрагента. Работы выполнены и оплачены">Налоговое уведомление</button><button data-needs-data disabled data-question="Отказали в жилищных выплатах, потому что есть квартира в ипотеке">Жилищные выплаты</button></div>
+        <div id="answer" aria-live="polite">
+          <div class="welcome"><article><span class="step">01 / НАЙТИ</span><h2>Похожие дела</h2><p>По предмету спора, требованиям и обстоятельствам.</p></article><article><span class="step">02 / СРАВНИТЬ</span><h2>Позиции суда</h2><p>Удовлетворение иска, частичный результат или отказ.</p></article><article><span class="step">03 / ПРОВЕРИТЬ</span><h2>Первоисточник</h2><p>Полный текст решения и переход к конкретной цитате.</p></article></div>
+        </div>
+      </section>
+      <section id="registry-view" aria-labelledby="registry-heading" hidden>
+        <p class="eyebrow">Коллекция</p><h1 id="registry-heading">Реестр решений</h1><p class="intro" id="registry-intro">Выберите тему и исход или найдите дело по номеру. Точные повторы исключены из списка.</p>
+        <div id="summary" class="metrics"></div>
+        <form id="filter"><fieldset class="filters" data-needs-data disabled><label for="registry-topic"><span class="topic-word">Тема</span><select id="registry-topic"><option value="">Все темы</option></select></label><label for="registry-outcome">Исход<select id="registry-outcome"><option value="">Все исходы</option></select></label><label for="registry-query">Номер дела или слова<input id="registry-query" maxlength="1200" placeholder="Например, 2794-21-00-4/481"></label><button class="primary" type="submit">Найти</button></fieldset></form>
+        <div id="registry-results" aria-live="polite"></div>
+      </section>
+      <section id="factors-view" aria-labelledby="factors-heading" hidden>
+        <p class="eyebrow" id="factors-eyebrow">Анализ решений</p><h1 id="factors-heading">Обстоятельства спора</h1><p class="intro" id="factors-intro">Какие формулировки встречаются в мотивировках и как распределяются по исходам дел.</p>
+        <label class="topic-filter" for="factor-topic"><span class="topic-word">Тема</span><select id="factor-topic" data-needs-data disabled><option value="">Все темы</option></select></label>
+        <p class="notice" id="factors-notice">Частота формулировки не показывает вероятность выигрыша. В одном деле может быть несколько требований с разными исходами. Для вывода по своему спору прочитайте полную мотивировку.</p>
+        <div id="factor-results" aria-live="polite"></div>
+      </section>
+      <section id="method-view" aria-labelledby="method-heading" hidden>
+        <p class="eyebrow">О проекте</p><h1 id="method-heading">Решения — с контекстом.</h1>
+        <div class="prose"><p class="lead">«Casebook» — мой проект для изучения судебной практики Казахстана: административных споров, уголовных и гражданских дел. Я хочу сделать судебные акты удобнее для поиска и сравнения: от ситуации человека до доказательств и выводов суда.</p><p class="author-signature"><a href="https://github.com/aemkls" target="_blank" rel="noopener">aemkls ↗</a> · автор проекта</p>
+          <h2>Что входит в коллекцию</h2><p><b>Административные споры.</b> 21 814 исходных документов, 21 795 после исключения точных повторов. Решения распределены по 28 темам. Для 15 примеров подготовлены разборы с 32 цитатами из судебных актов.</p><p><b>Уголовные дела.</b> <span id="criminal-count">212</span> приговоров судов первой инстанции. Категория (кража, мошенничество, наркотики, вред здоровью и другие) определена по статье Уголовного кодекса, исход и вид наказания — по резолютивной части.</p><p><b>Гражданские дела.</b> <span id="civil-count">137</span> решений и апелляционных постановлений по гражданским спорам (корпоративные, договорные, семейные, трудовые, о долгах и вреде и другие). Тема определена по требованиям истца, исход — по резолютивной части. Тексты на казахском языке и технические определения в коллекцию не вошли.</p>
+          <h2>Как устроен поиск</h2><p>Поиск сопоставляет слова запроса и близкие термины с текстами решений. Тему можно указать вручную. Рядом с результатами показаны перечень доказательств по теме и примеры с цитатами. Они помогают подготовиться к изучению дела, но не учитывают все детали вашей ситуации.</p>
+          <h2>Что стоит перепроверить</h2><p>Темы, даты и исходы размечены автоматически. Неоднозначные записи отмечены в карточках. Разметка относится к конкретному акту: последующее обжалование и исполнение не отслеживаются. Дополнительные решения учтены отдельно.</p><p>Состав коллекции и повторяющиеся серии дел влияют на статистику. Поэтому здесь нет прогноза «процента победы». Найденная формулировка сама по себе не устанавливает причину выигрыша.</p>
+          <h2>Документы и нормы</h2><p>Выводы суда относятся к обстоятельствам и законодательству на дату дела. Для нового спора нужно проверить применимую редакцию норм и процессуальные сроки.</p><p><a href="https://adilet.zan.kz/rus/docs/K2000000350" target="_blank" rel="noopener">Административный процедурно-процессуальный кодекс РК ↗</a><br><a href="https://adilet.zan.kz/rus/docs/K1400000226" target="_blank" rel="noopener">Уголовный кодекс РК ↗</a></p>
+          <h2>Обезличивание уголовных и гражданских дел</h2><p>В текстах приговоров и решений фамилии, имена и отчества всех участников заменены на условные обозначения ФИО-1, ФИО-2 и далее — отдельно для каждого дела. Точные даты рождения сокращены до года, ИИН и адреса проживания скрыты. Замена выполнена автоматически и проверена выборочно; если вы заметили необезличенные данные, сообщите автору проекта.</p>
+          <h2>Данные и приватность</h2><p>Поисковый индекс загружается при открытии, тексты решений — по запросу. Обработка вопроса происходит в браузере: приложение не отправляет его на сервер и не использует внешний API языковой модели.</p><p><a href="https://github.com/aemkls/sudebnaya-praktika" target="_blank" rel="noopener">Код проекта и инструкция по запуску ↗</a></p>
+        </div>
+      </section>
+      <footer><span>Casebook · проект <a href="https://github.com/aemkls" target="_blank" rel="noopener">aemkls</a></span><span>Результат одного дела не гарантирует исход другого.</span></footer>
+    </main>
+  </div>
+  <main id="source-view" class="source-view" hidden tabindex="-1"></main>
+  <noscript><p class="notice">Для поиска по решениям включите JavaScript в настройках браузера.</p></noscript>
+  <script id="search-worker" type="text/plain">{{WORKER}}</script>
+  <script>{{APP}}</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+# Only for rebuilding the criminal-case data (scripts/anonymize_criminal.py)
+natasha==1.6.0
+pymorphy3==2.0.6
